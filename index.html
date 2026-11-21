@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DUNYA MANSOUR — منصة مقابلات المستشفيات واختبارات سباهي والجودة والعدوى</title>
+  <style>
+    :root {
+      --primary: #0f766e;
+      --primary-dark: #115e59;
+      --accent: #b45309;
+      --accent-light: #fef3c7;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #cbd5e1;
+      --success: #15803d;
+      --success-bg: #dcfce7;
+      --danger: #b91c1c;
+      --danger-bg: #fee2e2;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    header.brand-header {
+      background: linear-gradient(135deg, #0f172a 0%, #0f766e 100%);
+      color: #fff;
+      padding: 28px 20px;
+      border-bottom: 4px solid #f59e0b;
+    }
+
+    .brand-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-signature {
+      font-size: 0.9rem;
+      letter-spacing: 1px;
+      background: rgba(255, 255, 255, 0.14);
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      font-weight: 700;
+    }
+
+    .brand-title h1 {
+      font-size: 1.55rem;
+      margin-bottom: 4px;
+    }
+
+    .brand-title p {
+      color: #e2e8f0;
+      font-size: 0.95rem;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 24px auto;
+      padding: 0 16px 48px;
+    }
+
+    .dept-nav {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    .dept-btn {
+      background: var(--card);
+      border: 1.5px solid var(--border);
+      color: var(--text);
+      padding: 10px 18px;
+      border-radius: 10px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+
+    .dept-btn:hover {
+      border-color: var(--primary);
+    }
+
+    .dept-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .mode-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .mode-btn {
+      padding: 10px 20px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .mode-btn.active {
+      background: #0f172a;
+      color: #fff;
+    }
+
+    .mode-btn:not(.active) {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+
+    .panel {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 14px;
+      margin-bottom: 20px;
+    }
+
+    .qa-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 14px;
+      background: #f8fafc;
+    }
+
+    .qa-q {
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 8px;
+    }
+
+    .qa-a {
+      color: var(--text);
+      background: #fff;
+      padding: 12px;
+      border-radius: 8px;
+      border-right: 4px solid var(--primary);
+    }
+
+    .quiz-option {
+      display: block;
+      width: 100%;
+      text-align: right;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.98rem;
+    }
+
+    .quiz-option:hover {
+      border-color: var(--primary);
+    }
+
+    .quiz-option.selected {
+      background: #ccfbf1;
+      border-color: var(--primary);
+      font-weight: 700;
+    }
+
+    .action-btn {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 11px 22px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.98rem;
+    }
+
+    .action-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    .score-box {
+      padding: 18px;
+      border-radius: 10px;
+      background: var(--accent-light);
+      border: 1px solid #f59e0b;
+      margin-top: 18px;
+      font-weight: 700;
+    }
+
+    .feedback-correct {
+      color: var(--success);
+      background: var(--success-bg);
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    .feedback-wrong {
+      color: var(--danger);
+      background: var(--danger-bg);
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 8px;
+      font-weight: 600;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="brand-header">
+    <div class="brand-inner">
+      <div class="brand-title">
+        <h1>دليل مقابلات المستشفيات والاختبارات التفاعلية</h1>
+        <p>التمريض، الطوارئ، الأسنان، الطب العام، مكافحة العدوى، الجودة، ومعايير سباهي (CBAHI)</p>
+      </div>
+      <div class="brand-signature">تصميم: DUNYA MANSOUR</div>
+    </div>
+  </header>
+
+  <main class="container">
+    <nav class="dept-nav" id="deptNav"></nav>
+
+    <div class="mode-bar">
+      <button class="mode-btn active" id="btnGuide" onclick="setMode('guide')">بنك الأسئلة والإجابات</button>
+      <button class="mode-btn" id="btnQuiz" onclick="setMode('quiz')">اختبار القسم التفاعلي</button>
+    </div>
+
+    <section class="panel" id="mainPanel"></section>
+  </main>
+
+  <footer>إعداد وتصميم: DUNYA MANSOUR — دليل تدريبي للمقابلات والاعتماد الصحي بالمملكة</footer>
+
+  <script>
+    const hospitalData = {
+      infection: {
+        title: "مكافحة العدوى (Infection Control)",
+        qa: [
+          {
+            q: "ما هي لحظات نظافة اليدين الخمس وفق منظمة الصحة العالمية (WHO)؟",
+            a: "1) قبل ملامسة المريض، 2) قبل إجراء مهمة نظيفة أو معقمة، 3) بعد التعرض لسوائل الجسم أو خطر التعرض لها، 4) بعد ملامسة المريض، 5) بعد ملامسة محيط المريض."
+          },
+          {
+            q: "ما الفرق بين التطهير (Disinfection) والتعقيم (Sterilization)؟",
+            a: "التعقيم يقضي على جميع الكائنات الدقيقة بما فيها الأبواغ البكتيرية (مثل الأوتوكلاف للأدوات الجراحية والأسنان)، بينما التطهير يقلل الكائنات الممرضة على الأسطح أو الأجهزة غير المخترقة للأنسجة ولا يقضي بالضرورة على كل الأبواغ."
+          },
+          {
+            q: "متى يُستخدم الكحول الإيثيلي/الإيزوبروبيلي (70%) ومتى يُفضل غسل اليدين بالماء والصابون؟",
+            a: "يُستخدم المعقم الكحولي عند عدم وجود اتساخ ظاهر، ولا يُستخدم في حالات العدوى المسببة للأبواغ مثل Clostridioides difficile أو عند وجود اتساخ مرئي أو سوائل واضحة حيث يجب الغسل بالماء والصابون."
+          },
+          {
+            q: "ما نوع الاحتياطات المطلوبة لمريض مصاب أو مشتبه بإصابته بالدرن الرئوي المفتوح (Pulmonary TB)؟",
+            a: "احتياطات انتقال العدوى عبر الهواء (Airborne Precautions): غرفة ضغط سالب أو تهوية مناسبة، وارتداء قناع N95 أو أعلى قبل الدخول."
+          },
+          {
+            q: "ما الإجراء الفوري الصحيح عند حدوث وخزة إبرة ملوثة (Needlestick Injury)؟",
+            a: "غسل مكان الوخز فوراً بالماء والصابون دون عصر الجرح بقوة، وتطبيق مطهر مناسب، ثم الإبلاغ الفوري لقسم مكافحة العدوى وصحة العاملين لتقييم الخطورة وبدء البروتوكول الوقائي خلال الساعات الأولى."
+          }
+        ],
+        quiz: [
+          {
+            q: "أي من الحالات التالية يتطلب غسل اليدين بالماء والصابون بدلاً من المعقم الكحولي فقط؟",
+            options: [
+              "قبل إعطاء حقنة عضلية في عيادة نظيفة",
+              "وجود اتساخ ظاهر أو الاشتباه بـ C. difficile",
+              "بعد نزع القفازات النظيفة في غياب أي سوائل",
+              "قبل قياس الضغط لمريض مستقر"
+            ],
+            answer: 1
+          },
+          {
+            q: "ما الاحتياط الأساسي لحماية المريض والطاقم من انتقال العدوى عبر الرذاذ؟",
+            options: [
+              "قناع جراحي على مسافة قريبة وحماية العين عند اللزوم",
+              "عزل في غرفة ضغط سالب فقط دون قناع",
+              "مضاد حيوي وقائي لجميع المخالطين",
+              "تعقيم الهواء بالأشعة فقط"
+            ],
+            answer: 0
+          },
+          {
+            q: "أين تُوضع الإبر والمشارط الحادة بعد الاستخدام مباشرة؟",
+            options: [
+              "في كيس النفايات الطبية الصفراء",
+              "في حاوية الأدوات الحادة (Sharps Container) المقاومة للثقب حتى ثلاثة أرباع سعتها",
+              "في سلة النفايات العامة بعد تغطية الإبرة بيد واحدة",
+              "في حوض الغسيل لنقعها"
+            ],
+            answer: 1
+          }
+        ]
+      },
+      quality: {
+        title: "الجودة وسلامة المرضى (Quality & Patient Safety)",
+        qa: [
+          {
+            q: "كيف تطبق الهدف الأول من أهداف سلامة المرضى الدولية (IPSG.1) المتعلق بالتعريف الصحيح للمريض؟",
+            a: "استخدام معرّفين مستقلين على الأقل (مثل الاسم الثلاثي الكامل ورقم الملف الطبي أو تاريخ الميلاد) قبل إعطاء الدواء، أو سحب العينات، أو بدء إجراء علاجي، ولا يُعد رقم الغرفة معرّفاً."
+          },
+          {
+            q: "ما المقصود بحادثة (Near Miss) وما الفرق بينها وبين (Sentinel Event)؟",
+            a: "الحادثة الوشيكة (Near Miss) هي خطأ محتمل تم اكتشافه وتداركه قبل وصول الضرر للمريض، بينما الحادثة الجسيمة (Sentinel Event) تؤدي إلى وفاة غير متوقعة أو ضرر جسيم دائم أو مؤقت شديد للمريض."
+          },
+          {
+            q: "ما خطوات تطبيق (Time-Out) قبل الإجراء الجراحي أو التداخلي؟",
+            a: "توقف الفريق بالكامل قبل بدء الشق أو الإجراء للتحقق من هوية المريض الصحيحة، والموقع الصحيح، والإجراء الصحيح، وتوفر المستلزمات والموافقات اللازمة."
+          },
+          {
+            q: "ما أداة (SBAR) وكيف تُستخدم في التواصل السريري؟",
+            a: "أداة تواصل منظم: الحالة الحالية (Situation)، والخلفية السريرية (Background)، والتقييم (Assessment)، والتوصية (Recommendation) لضمان نقل المعلومات بدقة وسرعة."
+          },
+          {
+            q: "لماذا تُعد ثقافة الإبلاغ غير العقابي (Just Culture) مهمة في الجودة؟",
+            a: "لأنها تشجع الموظفين على الإبلاغ عن الأخطاء والحوادث الوشيكة دون خوف مبرر من العقاب عند وجود خطأ نظامي، مما يتيح تحليل الجذور (RCA) وتحسين العمليات."
+          }
+        ],
+        quiz: [
+          {
+            q: "أي مما يلي يُعد معرّفاً صحيحاً للمريض قبل صرف أو إعطاء الدواء؟",
+            options: [
+              "رقم سرير المريض في القسم",
+              "الاسم الكامل ورقم الملف الطبي ومطابقتهما بالسوار",
+              "سؤال المرافق فقط دون التحقق من السجل",
+              "تشخيص المريض المكتوب على اللوحة"
+            ],
+            answer: 1
+          },
+          {
+            q: "ماذا يمثل حرف (R) في نموذج التواصل السريري SBAR؟",
+            options: [
+              "Risk — مستوى الخطورة",
+              "Recommendation — التوصية أو الإجراء المقترح",
+              "Review — مراجعة الفاتورة",
+              "Report — أرشيف السجل"
+            ],
+            answer: 1
+          },
+          {
+            q: "ما الهدف الرئيسي من تحليل الأسباب الجذرية (RCA)؟",
+            options: [
+              "تحديد الموظف المذنب لمعاقبته",
+              "اكتشاف نقاط الضعف في النظام والعمليات لمنع تكرار الحادثة",
+              "إغلاق ملف الشكوى بأسرع وقت",
+              "زيادة عدد النماذج الورقية"
+            ],
+            answer: 1
+          }
+        ]
+      },
+      cbahi: {
+        title: "معايير سباهي السعودية (CBAHI Standards)",
+        qa: [
+          {
+            q: "ما الدور الأساسي للمركز السعودي لاعتماد المنشآت الصحية (CBAHI)؟",
+            a: "وضع معايير وطنية للجودة وسلامة المرضى وتقييم المنشآت الصحية في المملكة ومنح الاعتماد لضمان تقديم رعاية صحية آمنة وعالية الجودة."
+          },
+          {
+            q: "كيف يستعد القسم لزيارة مقيمي سباهي عملياً؟",
+            a: "عبر التزام الموظفين بالممارسات اليومية الصحيحة (وليس التوثيق فقط)، ومعرفة السياسات والإجراءات المتعلقة بالقسم، وجاهزية الأدوية والمعدات، وتطبيق سلامة الأدوية العالية الخطورة (High-Alert Medications)."
+          },
+          {
+            q: "ما متطلبات التعامل مع الأدوية عالية الخطورة (High-Alert Medications) مثل الأنسولين أو الهيبارين أو الكالسيوم المركز؟",
+            a: "تمييزها بملصقات واضحة، وتقييد التخزين أو فصل التركيزات المتشابهة (LASA)، وتطبيق التحقق المزدوج المستقل (Independent Double Check) قبل الإعطاء."
+          },
+          {
+            q: "كيف يتم التعامل مع شكاوى المرضى وفق متطلبات الجودة وسباهي؟",
+            a: "استقبال الشكوى باحترام وشفافية، وتوثيقها في النظام المعتمد، وإبلاغ المريض بآلية المتابعة والمدة الزمنية للرد، والعمل على معالجة الأسباب."
+          },
+          {
+            q: "ما أهمية خطط الطوارئ والإخلاء ومعرفة نقاط التجمع في المنشأة؟",
+            a: "لضمان سلامة المرضى والموظفين والزوار عند الحريق أو الأعطال الكبرى أو الكوارث، ومعرفة كل موظف لمسؤوليته ومسار الإخلاء ونقطة التجمع المعتمدة."
+          }
+        ],
+        quiz: [
+          {
+            q: "أي إجراء يُعد إلزامياً عند التعامل مع الأدوية المتشابهة في الاسم أو الشكل (LASA)؟",
+            options: [
+              "وضعها في درج واحد لتسهيل الوصول",
+              "فصلها بوضوح واستخدام تنبيهات بصرية والتحقق المزدوج عند الصرف والإعطاء",
+              "الاعتماد على لون العبوة فقط",
+              "حذف الاسم العلمي من الملصق"
+            ],
+            answer: 1
+          },
+          {
+            q: "ما الذي يركز عليه مقيمو سباهي أثناء جولاتهم الميدانية؟",
+            options: [
+              "مظهر المكاتب الإدارية فقط",
+              "تطبيق الممارسات الآمنة فعلياً ومطابقتها للسياسات وفهم الموظفين لدورهم",
+              "عدد الملفات الورقية فقط",
+              "سرعة إنهاء الجولة دون سؤال الموظفين"
+            ],
+            answer: 1
+          },
+          {
+            q: "ماذا تفعل إذا سألك مقيم سباهي عن سياسة لا تتذكر تفاصيلها كاملة؟",
+            options: [
+              "تختلق إجابة من عندك",
+              "توضح النقطة التي تعرفها بدقة وتذكر أين تصل للسياسة المعتمدة في النظام الإلكتروني للمنشأة",
+              "تتجاهل السؤال",
+              "تحيل المقيم إلى مريض"
+            ],
+            answer: 1
+          }
+        ]
+      },
+      nursing: {
+        title: "التمريض والطب العام والأسنان والطوارئ (Clinical Departments)",
+        qa: [
+          {
+            q: "ما أول خطوة عند استقبال مريض يعاني من ضيق تنفس حاد أو ألم صدري في العيادة أو الطوارئ؟",
+            a: "تقييم العلامات الحيوية فوراً (بما فيها تشبع الأكسجين SpO2)، ووضع المريض في وضعية مريحة للتنفس، وإبلاغ الطبيب فوراً وتجهيز الأكسجين ومعدات الطوارئ حسب البروتوكول."
+          },
+          {
+            q: "ما مبادئ إعطاء الأدوية الآمنة (Rights of Medication Administration)؟",
+            a: "التحقق من المريض الصحيح، والدواء الصحيح، والجرعة الصحيحة، والطريقة/المسار الصحيح، والوقت الصحيح، والتوثيق الصحيح بعد الإعطاء ومراقبة الاستجابة أو الآثار الجانبية."
+          },
+          {
+            q: "ما أبرز إجراءات السلامة ومكافحة العدوى في عيادة الأسنان؟",
+            a: "تعقيم الأدوات القابلة لإعادة الاستخدام بأجهزة التعقيم المعتمدة ومؤشرات التعقيم، وتغطية أو تطهير الأسطح بين المرضى، واستخدام معدات الحماية الشخصية، والتعامل الآمن مع الأدوات الحادة والانسكابات."
+          },
+          {
+            q: "كيف تتعامل مع مريض ظهرت عليه أعراض تحسس دوائي مفاجئ أو إغماء أثناء إجراء طبي؟",
+            a: "إيقاف المادة أو الإجراء فوراً، وتقييم مجرى الهواء والتنفس والدورة الدموية، واستدعاء الطبيب فوراً، وتجهيز الإيبينيفرين والأكسجين والوريد حسب تعليمات الطبيب وبروتوكول الطوارئ."
+          },
+          {
+            q: "لماذا يُعد التوثيق الطبي الدقيق والفوري في السجل الإلكتروني (EMR) أمراً حاسماً؟",
+            a: "لأنه يضمن استمرارية الرعاية بين الفريق الطبي، ويوثق الحالة والاستجابة بدقة، ويحمي حقوق المريض والمنشأة قانونياً ومهنياً."
+          }
+        ],
+        quiz: [
+          {
+            q: "ما أول إجراء عند اشتباه حدوث تفاعل تحسسي شديد (Anaphylaxis) أثناء إعطاء دواء؟",
+            options: [
+              "إكمال باقي الجرعة ببطء",
+              "إيقاف الدواء فوراً، تقييم المريض، واستدعاء الطبيب وتجهيز طوارئ التحسس",
+              "تأجيل الإبلاغ لنهاية المناوبة",
+              "إعطاء ماء عن طريق الفم فوراً دون تقييم"
+            ],
+            answer: 1
+          },
+          {
+            q: "كيف نتحقق من فعالية دورة التعقيم في جهاز الأوتوكلاف؟",
+            options: [
+              "بالنظر إلى شكل العبوة فقط",
+              "عبر المؤشرات الفيزيائية والكيميائية والبيولوجية المعتمدة وسجلات التعقيم",
+              "بلمس الكيس بعد خروجه مباشرة",
+              "بتقليل زمن الدورة لتوفير الوقت"
+            ],
+            answer: 1
+          },
+          {
+            q: "ما القاعدة الصحيحة لتوثيق إجراء تمريضي أو دوائي؟",
+            options: [
+              "توثيقه قبل تنفيذه بساعة",
+              "توثيقه بدقة ووضوح بعد تنفيذه مباشرة مع ذكر الوقت والملاحظات",
+              "تركه دون توقيع أو اسم المستخدم",
+              "نسخ ملاحظة يوم سابق"
+            ],
+            answer: 1
+          }
+        ]
+      }
+    };
+
+    let currentDept = "infection";
+    let currentMode = "guide";
+    let userSelections = {};
+
+    function renderNav() {
+      const nav = document.getElementById("deptNav");
+      nav.innerHTML = "";
+      Object.entries(hospitalData).forEach(([key, dept]) => {
+        const btn = document.createElement("button");
+        btn.className = `dept-btn ${key === currentDept ? "active" : ""}`;
+        btn.textContent = dept.title;
+        btn.onclick = () => {
+          currentDept = key;
+          renderNav();
+          renderPanel();
+        };
+        nav.appendChild(btn);
+      });
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.getElementById("btnGuide").classList.toggle("active", mode === "guide");
+      document.getElementById("btnQuiz").classList.toggle("active", mode === "quiz");
+      renderPanel();
+    }
+
+    function renderPanel() {
+      const panel = document.getElementById("mainPanel");
+      const dept = hospitalData[currentDept];
+
+      if (currentMode === "guide") {
+        let html = `
+          <div class="panel-header">
+            <h2>${dept.title} — أسئلة المقابلة وإجاباتها النموذجية</h2>
+            <span style="color: var(--muted); font-weight: 600;">تصميم DUNYA MANSOUR</span>
+          </div>
+        `;
+        dept.qa.forEach((item, idx) => {
+          html += `
+            <div class="qa-card">
+              <div class="qa-q">${idx + 1}. ${item.q}</div>
+              <div class="qa-a"><strong>الإجابة النموذجية:</strong> ${item.a}</div>
+            </div>
+          `;
+        });
+        panel.innerHTML = html;
+      } else {
+        const deptAns = userSelections[currentDept] || {};
+        let html = `
+          <div class="panel-header">
+            <h2>اختبار قسم: ${dept.title}</h2>
+            <span style="color: var(--muted); font-weight: 600;">اختر الإجابة الصحيحة لكل سؤال</span>
+          </div>
+        `;
+        dept.quiz.forEach((qItem, qIdx) => {
+          html += `<div class="qa-card"><div class="qa-q">${qIdx + 1}. ${qItem.q}</div>`;
+          qItem.options.forEach((opt, oIdx) => {
+            const selected = deptAns[qIdx] === oIdx ? "selected" : "";
+            html += `
+              <button type="button" class="quiz-option ${selected}" onclick="chooseAnswer('${currentDept}', ${qIdx}, ${oIdx})">
+                ${opt}
+              </button>
+            `;
+          });
+          html += `</div>`;
+        });
+        html += `
+          <button type="button" class="action-btn" onclick="gradeQuiz('${currentDept}')">عرض النتيجة والتصحيح</button>
+          <div id="quizResultBox"></div>
+        `;
+        panel.innerHTML = html;
+      }
+    }
+
+    function chooseAnswer(deptKey, qIdx, oIdx) {
+      if (!userSelections[deptKey]) userSelections[deptKey] = {};
+      userSelections[deptKey][qIdx] = oIdx;
+      renderPanel();
+    }
+
+    function gradeQuiz(deptKey) {
+      const dept = hospitalData[deptKey];
+      const deptAns = userSelections[deptKey] || {};
+      let correctCount = 0;
+      let detailsHtml = "";
+
+      dept.quiz.forEach((qItem, idx) => {
+        const chosen = deptAns[idx];
+        if (chosen === qItem.answer) {
+          correctCount++;
+          detailsHtml += `<div class="feedback-correct">السؤال ${idx + 1}: إجابة صحيحة ✔</div>`;
+        } else {
+          detailsHtml += `
+            <div class="feedback-wrong">
+              السؤال ${idx + 1}: غير مكتملة أو خاطئة ✘ — الإجابة الصحيحة: ${qItem.options[qItem.answer]}
+            </div>
+          `;
+        }
+      });
+
+      const pct = Math.round((correctCount / dept.quiz.length) * 100);
+      document.getElementById("quizResultBox").innerHTML = `
+        <div class="score-box">
+          نتيجتك في قسم (${dept.title}): ${correctCount} من ${dept.quiz.length} (${pct}%)
+          ${detailsHtml}
+        </div>
+      `;
+    }
+
+    renderNav();
+    renderPanel();
+  </script>
+</body>
+</html>
